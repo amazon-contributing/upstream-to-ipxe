@@ -5,6 +5,11 @@
 /* Allow scripts to create custom headers for retrieving metadata */
 #define PARAM_CMD
 
+/* Allow retrieval of metadata (such as an iPXE boot script) from
+ * AWS Instance Metadata Service Version 2 (IMDSv2).
+ */
+#define HTTP_HACK_EC2
+
 /* Allow scripts to handle errors by powering down the VM to avoid
  * incurring unnecessary costs.
  */
