@@ -454,6 +454,9 @@ FILE_SECBOOT ( PERMITTED );
 #define ERRFILE_ffdhe		      ( ERRFILE_OTHER | 0x006b0000 )
 #define ERRFILE_cbc		      ( ERRFILE_OTHER | 0x006c0000 )
 
+#define ERRFILE_userdata_cmd ( ERRFILE_OTHER | 0x01000000 )
+#define ERRFILE_userdata     ( ERRFILE_OTHER | 0x01010000 )
+#define ERRFILE_imdsv2       ( ERRFILE_OTHER | 0x01030000 )
 /** @} */
 
 #endif /* _IPXE_ERRFILE_H */

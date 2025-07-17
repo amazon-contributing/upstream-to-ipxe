@@ -312,6 +312,9 @@ REQUIRE_OBJECT ( fdt_cmd );
 #ifdef IMAGE_SET_CMD
 REQUIRE_OBJECT ( image_set_cmd );
 #endif
+#ifdef USERDATA_CMD
+REQUIRE_OBJECT ( userdata_cmd );
+#endif
 
 /*
  * Drag in miscellaneous objects

@@ -19,22 +19,6 @@ exit
 
 :dhcp_ok
 route ||
-
-# Fetch session token
-params --method PUT
-param --header X-Aws-Ec2-Metadata-Token-Ttl-Seconds 600
-imgset authtoken http://169.254.169.254/latest/api/token##params ||
-
-# Fetch user-data
-params
-isset ${authtoken} && param --header X-Aws-Ec2-Metadata-Token ${authtoken} ||
-kernel http://169.254.169.254/latest/user-data##params ||
-imgstat ||
-
-# Boot from user-data
-boot -ar ||
-
-# Show diagnostic information on failure
-imgstat ||
+userdata ||
 ifstat ||
 exit
