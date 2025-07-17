@@ -83,6 +83,7 @@ FILE_SECBOOT ( PERMITTED );
 //#define HTTP_AUTH_NTLM	/* NTLM authentication */
 //#define HTTP_ENC_PEERDIST	/* PeerDist content encoding */
 //#define HTTP_HACK_GCE		/* Google Compute Engine hacks */
+//#define HTTP_HACK_EC2		/* Amazon Elastic Compute Cloud hacks */
 
 /*
  * 802.11 cryptosystems and handshaking protocols
@@ -175,6 +176,7 @@ FILE_SECBOOT ( PERMITTED );
 #define SHIM_CMD		/* EFI shim command (or dummy command) */
 //#define USB_CMD		/* USB commands */
 //#define FDT_CMD		/* Flattened Device Tree commands */
+#define USERDATA_CMD		/* USERDATA command */
 
 /*
  * Certificate sources
