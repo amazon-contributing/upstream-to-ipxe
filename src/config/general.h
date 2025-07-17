@@ -58,6 +58,7 @@ FILE_SECBOOT ( PERMITTED );
 #define HTTP_AUTH_NTLM		/* NTLM authentication */
 //#define HTTP_ENC_PEERDIST	/* PeerDist content encoding */
 //#define HTTP_HACK_GCE		/* Google Compute Engine hacks */
+//#define HTTP_HACK_EC2		/* Amazon Elastic Compute Cloud hacks */
 
 /* Disable protocols not historically included in BIOS builds */
 #if defined ( PLATFORM_pcbios )
@@ -124,6 +125,8 @@ FILE_SECBOOT ( PERMITTED );
 //#define TIME_CMD		/* Time commands */
 #define USB_CMD			/* USB commands */
 #define VLAN_CMD		/* VLAN commands */
+#define USERDATA_CMD		/* USERDATA command */
+#define AWS_GET_BOOT_CREDS_FROM_SECRET_CMD	/* Get boot creds from Secrets Manager command */
 
 /* Commands supported only on systems capable of rebooting */
 #if ! defined ( REBOOT_NULL )
