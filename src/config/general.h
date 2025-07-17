@@ -124,6 +124,7 @@ FILE_SECBOOT ( PERMITTED );
 //#define TIME_CMD		/* Time commands */
 #define USB_CMD			/* USB commands */
 #define VLAN_CMD		/* VLAN commands */
+#define USERDATA_CMD		/* USERDATA command */
 
 /* Commands supported only on systems capable of rebooting */
 #if ! defined ( REBOOT_NULL )
@@ -244,7 +245,7 @@ FILE_SECBOOT ( PERMITTED );
 #endif
 
 /*****************************************************************************
-*
+ *
  * Name resolution modules
  *
  */
