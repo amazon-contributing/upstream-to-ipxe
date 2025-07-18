@@ -451,6 +451,8 @@ FILE_SECBOOT ( PERMITTED );
 #define ERRFILE_userdata     ( ERRFILE_OTHER | 0x01010000 )
 #define ERRFILE_imdsv2       ( ERRFILE_OTHER | 0x01030000 )
 #define ERRFILE_json         ( ERRFILE_OTHER | 0x01040000 )
+#define ERRFILE_aws_sigv4    ( ERRFILE_OTHER | 0x01050000 )
+
 /** @} */
 
 #endif /* _IPXE_ERRFILE_H */
