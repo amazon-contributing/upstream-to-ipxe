@@ -177,6 +177,7 @@ FILE_SECBOOT ( PERMITTED );
 //#define USB_CMD		/* USB commands */
 //#define FDT_CMD		/* Flattened Device Tree commands */
 #define USERDATA_CMD		/* USERDATA command */
+#define AWS_GET_BOOT_CREDS_FROM_SECRET_CMD		/* Get boot creds from Secrets Manager command */
 
 /*
  * Certificate sources
