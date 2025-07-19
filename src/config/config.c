@@ -314,6 +314,9 @@ REQUIRE_OBJECT ( fdt_cmd );
 #ifdef USERDATA_CMD
 REQUIRE_OBJECT ( userdata_cmd );
 #endif
+#ifdef AWS_GET_BOOT_CREDS_FROM_SECRET_CMD
+REQUIRE_OBJECT ( aws_get_boot_creds_from_secret_cmd );
+#endif
 
 /*
  * Drag in miscellaneous objects
