@@ -328,7 +328,7 @@ err_buffer:
 /**
  * Get user data and store it in an image
  *
- * @v use_ipv6  Boolean flag to determine whether to use IPv6 (true) or IPv4 (false)
+ * @v use_ipv6   Boolean flag to determine whether to use IPv6 (true) or IPv4 (false)
  * @v image		Image to fill in
  * @ret rc		Return status code
  */
@@ -339,12 +339,12 @@ int get_userdata ( int use_ipv6, struct image **image ) {
 	char *token = NULL;
 	int rc;
 
-	rc = get_imds_metadata_base_url ( use_ipv6, &base_url );
+	rc = get_imdsv2_metadata_base_url ( use_ipv6, &base_url );
 	if ( rc != 0 )
 		goto err_base_url;
 
 	/* Get IMDSv2 session token */
-	rc = get_imdsv2_token ( &token, base_url );
+	rc = get_imdsv2_token ( base_url, &token );
 	if ( rc != 0 )
 		goto err_token;
 
