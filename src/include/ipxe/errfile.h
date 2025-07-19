@@ -450,12 +450,13 @@ FILE_SECBOOT ( PERMITTED );
 #define ERRFILE_ecdhe		      ( ERRFILE_OTHER | 0x00680000 )
 #define ERRFILE_ecdsa		      ( ERRFILE_OTHER | 0x00690000 )
 
-#define ERRFILE_userdata_cmd ( ERRFILE_OTHER | 0x01000000 )
-#define ERRFILE_userdata     ( ERRFILE_OTHER | 0x01010000 )
-#define ERRFILE_imdsv2       ( ERRFILE_OTHER | 0x01030000 )
-#define ERRFILE_json         ( ERRFILE_OTHER | 0x01040000 )
-#define ERRFILE_aws_sigv4    ( ERRFILE_OTHER | 0x01050000 )
-#define ERRFILE_amz_date     ( ERRFILE_OTHER | 0x01060000 )
+#define ERRFILE_userdata_cmd                       ( ERRFILE_OTHER | 0x01000000 )
+#define ERRFILE_userdata                           ( ERRFILE_OTHER | 0x01010000 )
+#define ERRFILE_imdsv2                             ( ERRFILE_OTHER | 0x01030000 )
+#define ERRFILE_json                               ( ERRFILE_OTHER | 0x01040000 )
+#define ERRFILE_aws_sigv4                          ( ERRFILE_OTHER | 0x01050000 )
+#define ERRFILE_amz_date                           ( ERRFILE_OTHER | 0x01060000 )
+#define ERRFILE_aws_get_boot_creds_from_secret_cmd ( ERRFILE_OTHER | 0x01060000 )
 
 /** @} */
 
