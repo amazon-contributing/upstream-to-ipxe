@@ -291,4 +291,4 @@ err_parse_options:
 }
 
 /** AWS get boot credentials from secret command */
-COMMAND ( aws_get_boot_creds_from_secret, aws_get_boot_creds_from_secret_exec );
+COMMAND ( aws_get_boot_creds_from_secret, aws_get_boot_creds_from_secret_exec )
