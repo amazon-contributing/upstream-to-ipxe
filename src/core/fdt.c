@@ -680,6 +680,28 @@ int fdt_u32 ( struct fdt *fdt, unsigned int offset, const char *name,
 }
 
 /**
+ * Get package handle (phandle) property
+ *
+ * @v fdt		Device tree
+ * @v offset		Starting node offset
+ * @ret phandle		Package handle, or 0 on error
+ */
+uint32_t fdt_phandle ( struct fdt *fdt, unsigned int offset ) {
+	uint32_t phandle;
+	int rc;
+
+	/* Get "phandle" or "linux,phandle" property */
+	if ( ( ( rc = fdt_u32 ( fdt, offset, "phandle", &phandle ) ) == 0 ) ||
+	     ( ( rc = fdt_u32 ( fdt, offset, "linux,phandle",
+				&phandle ) ) == 0 ) ) {
+		assert ( phandle != 0 );
+		return phandle;
+	}
+
+	return 0;
+}
+
+/**
  * Get region cell size specification
  *
  * @v fdt		Device tree
@@ -708,6 +730,29 @@ void fdt_reg_cells ( struct fdt *fdt, unsigned int offset,
 
 	/* Calculate stride */
 	regs->stride = ( regs->address_cells + regs->size_cells );
+}
+
+/**
+ * Get parent region cell size specification
+ *
+ * @v fdt		Device tree
+ * @v offset		Starting node offset
+ * @v regs		Region cell size specification to fill in
+ * @ret rc		Return status code
+ */
+int fdt_parent_reg_cells ( struct fdt *fdt, unsigned int offset,
+			   struct fdt_reg_cells *regs ) {
+	unsigned int parent;
+	int rc;
+
+	/* Get parent node */
+	if ( ( rc = fdt_parent ( fdt, offset, &parent ) ) != 0 )
+		return rc;
+
+	/* Read #address-cells and #size-cells, if present */
+	fdt_reg_cells ( fdt, parent, regs );
+
+	return 0;
 }
 
 /**
@@ -780,6 +825,32 @@ int fdt_reg_size ( struct fdt *fdt, unsigned int offset,
 				size ) ) != 0 ) {
 		return rc;
 	}
+
+	return 0;
+}
+
+/**
+ * Get unsized single-entry region address
+ *
+ * @v fdt		Device tree
+ * @v offset		Starting node offset
+ * @v address		Region address to fill in
+ * @ret rc		Return status code
+ *
+ * Many region types (e.g. I2C bus addresses) can only ever contain a
+ * single region with no size cells specified.
+ */
+int fdt_reg ( struct fdt *fdt, unsigned int offset, uint64_t *region ) {
+	struct fdt_reg_cells regs;
+	int rc;
+
+	/* Get parent region cell size specification */
+	if ( ( rc = fdt_parent_reg_cells ( fdt, offset, &regs ) ) != 0 )
+		return rc;
+
+	/* Get first region address */
+	if ( ( rc = fdt_reg_address ( fdt, offset, &regs, 0, region ) ) != 0 )
+		return rc;
 
 	return 0;
 }

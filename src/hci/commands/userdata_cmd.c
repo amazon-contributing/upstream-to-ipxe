@@ -85,7 +85,4 @@ err_parse_options:
 }
 
 /** userdata command */
-struct command userdata_command __command = {
-	.name = "userdata",
-	.exec = userdata_exec,
-};
+COMMAND ( userdata, userdata_exec );

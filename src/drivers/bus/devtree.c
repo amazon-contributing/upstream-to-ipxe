@@ -40,8 +40,6 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL );
 
 static struct dt_driver dt_node_driver __dt_driver;
 
-static void dt_remove_children ( struct dt_device *parent );
-
 /**
  * Map devicetree range
  *
@@ -54,21 +52,17 @@ static void dt_remove_children ( struct dt_device *parent );
 void * dt_ioremap ( struct dt_device *dt, unsigned int offset,
 		    unsigned int index, size_t len ) {
 	struct fdt_reg_cells regs;
-	unsigned int parent;
 	uint64_t address;
 	uint64_t size;
 	void *io_addr;
 	int rc;
 
-	/* Get parent node */
-	if ( ( rc = fdt_parent ( &sysfdt, offset, &parent ) ) != 0 ) {
-		DBGC ( dt, "DT %s could not locate parent: %s\n",
+	/* Get parent region cell size specification */
+	if ( ( rc = fdt_parent_reg_cells ( &sysfdt, offset, &regs ) ) != 0 ) {
+		DBGC ( dt, "DT %s could not get region cell sizes: %s\n",
 		       dt->name, strerror ( rc ) );
 		return NULL;
 	}
-
-	/* Read #address-cells and #size-cells, if present */
-	fdt_reg_cells ( &sysfdt, parent, &regs );
 
 	/* Read address */
 	if ( ( rc = fdt_reg_address ( &sysfdt, offset, &regs, index,
@@ -219,6 +213,7 @@ int dt_probe_node ( struct device *parent, unsigned int offset ) {
 	dt->name = dt->dev.name;
 	snprintf ( dt->dev.name, sizeof ( dt->dev.name ), "%s", name );
 	dt->dev.desc.bus_type = BUS_TYPE_DT;
+	dt->dev.desc.location = fdt_phandle ( &sysfdt, offset );
 	dt->dev.parent = parent;
 	INIT_LIST_HEAD ( &dt->dev.children );
 	list_add_tail ( &dt->dev.siblings, &parent->children );
@@ -266,8 +261,7 @@ void dt_remove_node ( struct device *parent ) {
  * @v offset		Starting node offset
  * @ret rc		Return status code
  */
-static int dt_probe_children ( struct dt_device *parent,
-			       unsigned int offset ) {
+int dt_probe_children ( struct dt_device *parent, unsigned int offset ) {
 	struct fdt_descriptor desc;
 	int depth;
 	int rc;
@@ -313,7 +307,7 @@ static int dt_probe_children ( struct dt_device *parent,
  *
  * @v parent		Parent device
  */
-static void dt_remove_children ( struct dt_device *parent ) {
+void dt_remove_children ( struct dt_device *parent ) {
 
 	/* Remove all child nodes */
 	while ( ! list_empty ( &parent->dev.children ) )
