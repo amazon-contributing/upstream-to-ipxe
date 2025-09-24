@@ -350,7 +350,7 @@ int generate_aws_request ( const AwsSigv4Params *params, char *sigv4, char *payl
 		goto cleanup;
 	}
 	aws_uri->method = &http_post;
-	aws_uri->params = create_parameters ( "AWS Parameter List" );
+	aws_uri->params = create_parameters ( "AWS Parameter List", NULL );
 
 	/* Construct authorization header */
 	if ( ( rc = construct_authorization_header ( params, sigv4, &authorization_header ) ) != 0 )
