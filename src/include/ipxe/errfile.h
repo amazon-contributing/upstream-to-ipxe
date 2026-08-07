@@ -461,6 +461,7 @@ FILE_SECBOOT ( PERMITTED );
 #define ERRFILE_gcm		      ( ERRFILE_OTHER | 0x006f0000 )
 #define ERRFILE_tlsfmt		      ( ERRFILE_OTHER | 0x00700000 )
 
+#define ERRFILE_json                               ( ERRFILE_OTHER | 0x01040000 )
 #define ERRFILE_amz_date                           ( ERRFILE_OTHER | 0x01060000 )
 
 /** @} */
