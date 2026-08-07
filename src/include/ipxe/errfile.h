@@ -456,6 +456,8 @@ FILE_SECBOOT ( PERMITTED );
 #define ERRFILE_ffdhe		      ( ERRFILE_OTHER | 0x006b0000 )
 #define ERRFILE_cbc		      ( ERRFILE_OTHER | 0x006c0000 )
 
+#define ERRFILE_amz_date                           ( ERRFILE_OTHER | 0x01060000 )
+
 /** @} */
 
 #endif /* _IPXE_ERRFILE_H */
