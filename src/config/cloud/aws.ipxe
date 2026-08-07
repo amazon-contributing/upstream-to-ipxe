@@ -20,21 +20,34 @@ exit
 :dhcp_ok
 route ||
 
+# Use the IPv4 IMDS endpoint first, then fall back to IPv6
+set imds http://169.254.169.254/latest
+
+:fetch
 # Fetch session token
 params --method PUT
-param --header X-Aws-Ec2-Metadata-Token-Ttl-Seconds 600
-imgset authtoken http://169.254.169.254/latest/api/token##params ||
+param --header X-aws-ec2-metadata-token-ttl-seconds 21600
+imgset authtoken ${imds}/api/token##params || goto fetch_fail
 
 # Fetch user-data
 params
-isset ${authtoken} && param --header X-Aws-Ec2-Metadata-Token ${authtoken} ||
-kernel http://169.254.169.254/latest/user-data##params ||
+param --header X-aws-ec2-metadata-token ${authtoken}
+kernel ${imds}/user-data##params || goto fetch_fail
 imgstat ||
 
 # Boot from user-data
 boot -ar ||
+goto failed
+
+:fetch_fail
+isset ${ipv6_tried} && goto failed ||
+echo IMDS fetch via ${imds} failed - retrying via IPv6
+set ipv6_tried 1
+set imds http://[fd00:ec2::254]/latest
+goto fetch
 
 # Show diagnostic information on failure
+:failed
 imgstat ||
 ifstat ||
 exit
