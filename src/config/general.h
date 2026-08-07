@@ -126,6 +126,7 @@ FILE_SECBOOT ( PERMITTED );
 //#define TIME_CMD		/* Time commands */
 #define USB_CMD			/* USB commands */
 #define VLAN_CMD		/* VLAN commands */
+#define AWS_GET_BOOT_CREDS_FROM_SECRET_CMD /* Get boot creds from Secrets Manager command */
 
 /* Commands supported only on systems capable of rebooting */
 #if ! defined ( REBOOT_NULL )
@@ -247,7 +248,7 @@ FILE_SECBOOT ( PERMITTED );
 #endif
 
 /*****************************************************************************
-*
+ *
  * Name resolution modules
  *
  */
