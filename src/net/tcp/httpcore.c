@@ -1072,6 +1072,18 @@ struct http_request_header http_request_range __http_request_header = {
  */
 static int http_format_content_type ( struct http_transaction *http,
 				      char *buf, size_t len ) {
+	struct parameter *param;
+
+	/* Do nothing if a header parameter already supplies the
+	 * content type.
+	 */
+	if ( http->uri->params ) {
+		for_each_param ( param, http->uri->params ) {
+			if ( ( param->flags & PARAMETER_HEADER ) &&
+			     ( strcmp ( param->key, "Content-Type" ) == 0 ) )
+				return 0;
+		}
+	}
 
 	/* Construct content type, if applicable */
 	if ( http->request.content.type ) {
@@ -1975,6 +1987,13 @@ static size_t http_form_params ( struct parameters *params, char *buf,
 	/* Add each parameter in the form "key=value", joined with "&" */
 	len = 0;
 	for_each_param ( param, params ) {
+
+		/* A body parameter supplies the raw request body
+		 * verbatim, bypassing form encoding entirely.
+		 */
+		if ( param->flags & PARAMETER_BODY )
+			return ssnprintf ( buf, remaining, "%s",
+					   param->value );
 
 		/* Skip non-form parameters */
 		if ( ! ( param->flags & PARAMETER_FORM ) )
