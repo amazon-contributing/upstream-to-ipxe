@@ -227,15 +227,29 @@ static int script_probe ( struct image *image ) {
 		char magic[ sizeof ( ipxe_magic ) - 1 /* NUL */ ];
 		char space;
 	} __attribute__ (( packed )) *test;
+	const char *text = image->text;
+
+	/* Skip any leading whitespace
+	 *
+	 * EC2 user-data rendered by the AWS external storage launch
+	 * wizard templates may carry a blank line ahead of the
+	 * shebang, and such user-data is already deployed in the
+	 * wild and cannot be regenerated.  Tolerate (only) leading
+	 * whitespace when probing.  Whitespace lines and the shebang
+	 * comment line are inert during execution, so script_exec()
+	 * needs no corresponding change.
+	 */
+	while ( isspace ( *text ) )
+		text++;
 
 	/* Sanity check */
-	if ( image->len < sizeof ( *test ) ) {
+	if ( ( image->len - ( text - image->text ) ) < sizeof ( *test ) ) {
 		DBGC ( image, "Too short to be a script\n" );
 		return -ENOEXEC;
 	}
 
 	/* Check for magic signature */
-	test = image->data;
+	test = ( ( const void * ) text );
 	if ( ! ( ( ( memcmp ( test->magic, ipxe_magic,
 			      sizeof ( test->magic ) ) == 0 ) ||
 		   ( memcmp ( test->magic, gpxe_magic,

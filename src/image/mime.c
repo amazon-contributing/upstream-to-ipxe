@@ -520,6 +520,10 @@ static const struct mime_type mime_types[] = {
 		.name = "text/x-ipxe",
 		.extract = mime_extract_entity,
 	},
+	{
+		.name = "text/ipxe",
+		.extract = mime_extract_entity,
+	},
 };
 
 /**
